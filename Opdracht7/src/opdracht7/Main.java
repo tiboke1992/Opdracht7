@@ -33,7 +33,7 @@ public class Main {
             ProductFacadeLocal productenDB = (ProductFacadeLocal) c.lookup("java:global/Opdracht7EJB/ProductFacade");
             PersonFacadeLocal personDB = (PersonFacadeLocal) c.lookup("java:global/Opdracht7EJB/PersonFacade");
             PlacedOrderFacadeLocal orderDB = (PlacedOrderFacadeLocal) c.lookup("java:global/Opdracht7EJB/PlacedOrderFacade");
-              //Producten toevoegen
+            //Producten toevoegen
             Product p1 = new Product();
             Product p2 = new Product();
             Product p3 = new Product();
@@ -60,7 +60,7 @@ public class Main {
             p4 = (Product) productenDB.create(p4);
             p5 = (Product) productenDB.create(p5);
             //Einde producten toevoegen
- 
+
             //Personen toevoegen
             Person per1 = new Person();
             Person per2 = new Person();
@@ -83,7 +83,7 @@ public class Main {
             per3 = (Person) personDB.create(per3);
             per4 = (Person) personDB.create(per4);
             //Einde personen toevoegen
- 
+
             //Orders toevoegen
             PlacedOrder o1 = new PlacedOrder();
             PlacedOrder o2 = new PlacedOrder();
@@ -95,13 +95,13 @@ public class Main {
             o3.setDatum("14");
             o4.setDatum("15");
             o5.setDatum("16");
-            o1 = (PlacedOrder)orderDB.create(o1);
-            o2 = (PlacedOrder)orderDB.create(o2);
-            o3 = (PlacedOrder)orderDB.create(o3);
-            o4 = (PlacedOrder)orderDB.create(o4);
-            o5 = (PlacedOrder)orderDB.create(o5);
+            o1 = (PlacedOrder) orderDB.create(o1);
+            o2 = (PlacedOrder) orderDB.create(o2);
+            o3 = (PlacedOrder) orderDB.create(o3);
+            o4 = (PlacedOrder) orderDB.create(o4);
+            o5 = (PlacedOrder) orderDB.create(o5);
             //Einde orders toevoegen
-           
+
             //aan de personen een lijst van orders meegeven aan persoon1
             List<PlacedOrder> l1 = new ArrayList<PlacedOrder>();
             l1.add(o1);
@@ -109,23 +109,30 @@ public class Main {
             per1.setOrders(l1);
             o1.setOwner(per1);
             o2.setOwner(per1);
-            List<Product>prodList = new ArrayList<Product>();
-            prodList.add(p1);
+            List<Product> prodList = new ArrayList<Product>();
+            prodList.add(p5);
             prodList.add(p2);
-            List<Product>prodList2 = new ArrayList<Product>();
+            List<Product> prodList2 = new ArrayList<Product>();
             prodList2.add(p1);
             prodList2.add(p3);
             o1.setProducten(prodList);
             o2.setProducten(prodList2);
-            o1 = (PlacedOrder)orderDB.edit(o1);
-            o2 = (PlacedOrder)orderDB.edit(o2);
-            per1 = (Person)personDB.edit(per1);
-           
-           
+            p5.addOrder(o1);
+            p1.addOrder(o2);
+            p2.addOrder(o1);
+            p3.addOrder(o2);
+            p1 = (Product) productenDB.edit(p1);
+            p2 = (Product) productenDB.edit(p2);
+            p3 = (Product) productenDB.edit(p3);
+            o1 = (PlacedOrder) orderDB.edit(o1);
+            o2 = (PlacedOrder) orderDB.edit(o2);
+            per1 = (Person) personDB.edit(per1);
+
+
             //uitprinten iedereen da order heeft daarvan de order uitprinten
             List<Person> persoonlijst = personDB.findAll();
             StringBuilder str = new StringBuilder();
-            for(Person x : persoonlijst){
+            for (Person x : persoonlijst) {
                 str.append("Persoon:");
                 str.append(x.getName());
                 str.append(" ");
@@ -134,20 +141,20 @@ public class Main {
                 str.append(x.getAge());
                 str.append("\n");
                 str.append("Bestelling:");
-                if(x.getOrders().isEmpty()){
+                if (x.getOrders().isEmpty()) {
                     str.append("Nog geen orders geplaatst!");
                     str.append("\n");
-                }else{
+                } else {
                     List<PlacedOrder> orders = x.getOrders();
                     str.append("Al: ");
                     str.append(x.getOrders().size());
                     str.append(" Orders geplaatst namelijk : \n");
-                    for(PlacedOrder s : orders){
+                    for (PlacedOrder s : orders) {
                         str.append("Order: op den");
                         str.append(s.getDatum());
                         str.append("\n");
-                        List<Product>prls = s.getProducten();
-                        for(Product k : prls){
+                        List<Product> prls = s.getProducten();
+                        for (Product k : prls) {
                             str.append("Product: ");
                             str.append(k.getNaam());
                             str.append("\n");
@@ -155,7 +162,11 @@ public class Main {
                     }
                 }
             }
-            System.out.println(str);
+            //System.out.println(str);
+            //query test
+            System.out.println(personDB.getNaamPersoonMetBestellingDieHetDuursteProductBevat());
+            System.out.println(personDB.getLijstPersonenDieEenItemHebbenDuurderDan(20));
+            System.out.println(personDB.getLijstPersonenDieEenItemHebbenDuurderDanEnOuderZijnDan(50, 18));
         } catch (NamingException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
