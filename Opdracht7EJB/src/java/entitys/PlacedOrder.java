@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -26,9 +27,9 @@ public class PlacedOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String datum;
-    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST},fetch= FetchType.EAGER)
+    @ManyToMany(mappedBy="order",cascade={CascadeType.MERGE, CascadeType.PERSIST},fetch= FetchType.EAGER)
     private List<Product>producten;
-    @ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST},fetch= FetchType.EAGER)
+    @ManyToOne
     Person owner;
 
     public String getDatum() {

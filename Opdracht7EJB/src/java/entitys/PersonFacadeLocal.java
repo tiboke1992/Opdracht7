@@ -28,4 +28,8 @@ public interface PersonFacadeLocal {
 
     int count();
     
+    String getNaamPersoonMetBestellingDieHetDuursteProductBevat();
+    String getLijstPersonenDieEenItemHebbenDuurderDan(int getal);
+    String getLijstPersonenDieEenItemHebbenDuurderDanEnOuderZijnDan(int getal, int leeftijd);
+    
 }

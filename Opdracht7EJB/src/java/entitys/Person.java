@@ -27,7 +27,7 @@ public class Person implements Serializable {
     private String name;
     private String lastName;
     private int leeftijd;
-    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST},fetch= FetchType.EAGER)
+    @OneToMany(mappedBy="owner",cascade={CascadeType.MERGE, CascadeType.PERSIST},fetch= FetchType.EAGER)
     private List<PlacedOrder> orders;
 
     public String getName() {

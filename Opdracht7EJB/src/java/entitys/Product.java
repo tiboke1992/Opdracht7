@@ -5,10 +5,12 @@
 package entitys;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -23,6 +25,16 @@ public class Product implements Serializable {
     private String naam;
     private double prijs;
     private int aantalInVooraad;
+    @ManyToMany
+    private List<PlacedOrder>order;
+
+    public List<PlacedOrder> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<PlacedOrder> order) {
+        this.order = order;
+    }
 
     public String getNaam() {
         return naam;
@@ -55,6 +67,10 @@ public class Product implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public void addOrder(PlacedOrder o){
+        this.order.add(o);
     }
 
     @Override
